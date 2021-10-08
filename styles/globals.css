@@ -1,16 +1,7 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+.tab-button {
+  @apply px-4 py-2 bg-blue-500 text-white rounded-lg text-center text-sm sm:text-base font-semibold mt-4 md:mt-0 mr-2 sm:ml-4 shadow-sm hover:shadow-md hover:cursor-pointer flex flex-row items-center;
 }
