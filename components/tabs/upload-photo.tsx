@@ -1,5 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { object, string, mixed } from "yup";
 
 interface FormValues {
@@ -11,6 +13,20 @@ interface FormValues {
 
 const UploadPhoto = () => {
   const [previewImage, setPreviewImage] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [uploadProgress, setProgress] = useState(0);
+
+  const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_APP_ID,
+  };
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const storage = getStorage(firebaseApp);
 
   const initialValues: FormValues = {
     photographerName: "",
@@ -31,6 +47,38 @@ const UploadPhoto = () => {
     imageFile: mixed().required("Please upload a photograph."),
   });
 
+  const uploadPhoto = (values: FormValues) => {
+    setLoading(true);
+    const imageRef = ref(storage, `images/${values.imageFile?.name}`);
+    if (values.imageFile) {
+      const uploadTask = uploadBytesResumable(imageRef, values.imageFile, {
+        customMetadata: {
+          photographerName: values.photographerName,
+          location: values.location,
+          imageDate: values.imageDate,
+        },
+      });
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(progress);
+          // console.log("Upload Progress => ", progress, "%");
+        },
+        (error) => {
+          setLoading(false);
+          console.log(error);
+        },
+        () => {
+          console.log("Success");
+          setLoading(false);
+        }
+      );
+    }
+  };
+
   return (
     <div className="mt-10 lg:w-1/2 md:w-3/4 mx-auto px-3">
       <div>
@@ -47,6 +95,7 @@ const UploadPhoto = () => {
         onSubmit={(values, actions) => {
           console.log({ values, actions });
           actions.setSubmitting(false);
+          uploadPhoto(values);
         }}
       >
         {({ setFieldValue, errors, touched }) => (
@@ -156,6 +205,28 @@ const UploadPhoto = () => {
                 Submit
               </button>
             </div>
+            {isLoading ? (
+              <div className="relative pt-1">
+                <div className="flex mb-2 items-center justify-between">
+                  <div>
+                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-500 bg-blue-200">
+                      Task in progress
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-semibold inline-block text-blue-500">
+                      {uploadProgress.toFixed(1)}%
+                    </span>
+                  </div>
+                </div>
+                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                  <div
+                    style={{ width: `${uploadProgress}%` }}
+                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+                  ></div>
+                </div>
+              </div>
+            ) : null}
           </Form>
         )}
       </Formik>
