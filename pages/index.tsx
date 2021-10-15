@@ -5,12 +5,23 @@ import MyPhotos from "../components/tabs/my-photos";
 import UploadPhoto from "../components/tabs/upload-photo";
 import PhotoBook from "../public/assets/photo-album.png";
 import Image from "next/image";
+import { initializeApp } from "@firebase/app";
 
 const UPLOAD_PHOTO_TAB = "upload-photo";
 const MY_PHOTOBOOK_TAB = "my-photobook";
 const MANAGE_PHOTOS_TAB = "manage-photos";
 
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+};
+
 const Home: NextPage = () => {
+  const firebaseApp = initializeApp(firebaseConfig);
   const [currentTab, setCurrentTab] = useState(UPLOAD_PHOTO_TAB);
 
   return (
@@ -30,7 +41,10 @@ const Home: NextPage = () => {
         </div>
         <div className="flex flex-row items-center">
           <div
-            className="tab-button"
+            className={[
+              "tab-button",
+              currentTab == UPLOAD_PHOTO_TAB ? "bg-blue-700" : "bg-blue-500",
+            ].join(" ")}
             onClick={() => setCurrentTab(UPLOAD_PHOTO_TAB)}
           >
             <svg
@@ -48,7 +62,10 @@ const Home: NextPage = () => {
             <p className="ml-2">Upload Photo</p>
           </div>
           <div
-            className="tab-button"
+            className={[
+              "tab-button",
+              currentTab == MY_PHOTOBOOK_TAB ? "bg-blue-700" : "bg-blue-500",
+            ].join(" ")}
             onClick={() => setCurrentTab(MY_PHOTOBOOK_TAB)}
           >
             <svg
@@ -66,7 +83,10 @@ const Home: NextPage = () => {
             <p className="ml-2">My PhotoBook</p>
           </div>
           <div
-            className="tab-button"
+            className={[
+              "tab-button",
+              currentTab == MANAGE_PHOTOS_TAB ? "bg-blue-700" : "bg-blue-500",
+            ].join(" ")}
             onClick={() => setCurrentTab(MANAGE_PHOTOS_TAB)}
           >
             <svg
@@ -87,7 +107,7 @@ const Home: NextPage = () => {
       </div>
       <div>
         {currentTab === UPLOAD_PHOTO_TAB ? (
-          <UploadPhoto />
+          <UploadPhoto firebaseApp={firebaseApp} />
         ) : currentTab === MY_PHOTOBOOK_TAB ? (
           <MyPhotos />
         ) : currentTab === MANAGE_PHOTOS_TAB ? (
