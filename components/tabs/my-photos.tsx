@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import image from "next/image";
 import { Picture } from "../../pages";
+import ImageBox from "../popups/image-box";
 
 const MyPhotos = () => {
   const db = getFirestore();
@@ -37,11 +38,7 @@ const MyPhotos = () => {
             key={picture.filename}
             className="rounded-xl shadow-lg overflow-hidden bg-white"
           >
-            <img
-              src={picture.imageURL}
-              alt={picture.filename}
-              className="border-b border-gray-200"
-            />
+            <ImageBox src={picture.imageURL} alt={picture.filename} />
             <div className="p-4">
               <div className="mb-3">
                 <span className="text-sm font-semibold inline-block py-1 px-3 uppercase rounded-full text-blue-500 bg-blue-200">

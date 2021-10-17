@@ -10,7 +10,6 @@ interface Props {
 }
 
 const ReplaceImage: React.FC<Props> = ({ picture, storage }) => {
-  const [previewImage, setPreviewImage] = useState("");
   const [newImage, setNewImage] = useState<File | null>();
   const [newImagePreview, setNewImagePreview] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -128,8 +127,8 @@ const ReplaceImage: React.FC<Props> = ({ picture, storage }) => {
             />
           ) : null}
           {isLoading ? (
-            <div className="relative pt-1">
-              <div className="flex mb-2 px-8 items-center justify-between">
+            <div className="relative pt-4 px-4 md:px-12">
+              <div className="flex mb-2 items-center justify-between">
                 <div>
                   <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-500 bg-blue-200">
                     Task in progress
@@ -151,7 +150,7 @@ const ReplaceImage: React.FC<Props> = ({ picture, storage }) => {
           ) : null}
           <div className="flex flex-row justify-around mt-4 mb-4">
             <div
-              className="edit-button bg-gray-500"
+              className="edit-button bg-gray-500 mx-1"
               onClick={() => {
                 setNewImage(null);
                 setNewImagePreview("");
@@ -173,7 +172,7 @@ const ReplaceImage: React.FC<Props> = ({ picture, storage }) => {
               Cancel
             </div>
             <div
-              className="edit-button bg-green-600"
+              className="edit-button bg-green-600 mx-1"
               onClick={async () => {
                 await replaceImage(picture, close);
               }}

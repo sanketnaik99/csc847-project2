@@ -92,7 +92,7 @@ const UploadPhoto: React.FC<Props> = (props) => {
           uploadPhoto(values);
         }}
       >
-        {({ setFieldValue, errors, touched }) => (
+        {({ setFieldValue, errors, touched, isSubmitting }) => (
           <Form className="mt-6">
             <div className="relative">
               <label
@@ -185,7 +185,10 @@ const UploadPhoto: React.FC<Props> = (props) => {
                   }}
                 />
               </label>
-              {errors.imageFile ? (
+              {errors.imageFile &&
+              touched.imageDate &&
+              touched.location &&
+              touched.photographerName ? (
                 <div className="error-message text-center mt-3">
                   {errors.imageFile}
                 </div>
