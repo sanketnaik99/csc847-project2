@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import image from "next/image";
-
-interface Picture {
-  created: string;
-  filename: string;
-  imageDate: string;
-  imageURL: string;
-  label: string;
-  location: string;
-  photographerName: string;
-  dateParsed?: Date;
-}
+import { Picture } from "../../pages";
 
 const MyPhotos = () => {
   const db = getFirestore();
@@ -29,7 +19,7 @@ const MyPhotos = () => {
       parsed.dateParsed = new Date(parsed.imageDate);
       pictureData.push(parsed);
     });
-    console.log(pictureData);
+    // console.log(pictureData);
     setPictures(pictureData);
   };
 

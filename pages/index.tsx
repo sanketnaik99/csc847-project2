@@ -20,6 +20,17 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APP_ID,
 };
 
+export interface Picture {
+  created: string;
+  filename: string;
+  imageDate: string;
+  imageURL: string;
+  label: string;
+  location: string;
+  photographerName: string;
+  dateParsed?: Date;
+}
+
 const Home: NextPage = () => {
   const firebaseApp = initializeApp(firebaseConfig);
   const [currentTab, setCurrentTab] = useState(UPLOAD_PHOTO_TAB);
@@ -39,7 +50,7 @@ const Home: NextPage = () => {
             PhotoBook
           </h1>
         </div>
-        <div className="flex flex-row items-center">
+        <div className="flex sm:flex-row flex-col justify-center items-center">
           <div
             className={[
               "tab-button",
@@ -111,7 +122,7 @@ const Home: NextPage = () => {
         ) : currentTab === MY_PHOTOBOOK_TAB ? (
           <MyPhotos />
         ) : currentTab === MANAGE_PHOTOS_TAB ? (
-          <ManagePhotos />
+          <ManagePhotos firebaseApp={firebaseApp} />
         ) : null}
       </div>
     </main>
