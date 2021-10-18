@@ -99,7 +99,7 @@ const UploadPhoto: React.FC<Props> = (props) => {
                 htmlFor="photographerName"
                 className="leading-7 text-sm text-gray-600"
               >
-                Photographer's Name
+                Photographer&#39;s Name
               </label>
               <Field
                 type="text"

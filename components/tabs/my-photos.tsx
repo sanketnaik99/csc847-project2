@@ -3,6 +3,7 @@ import { collection, getDocs, getFirestore } from "firebase/firestore";
 import image from "next/image";
 import { Picture } from "../../pages";
 import ImageBox from "../popups/image-box";
+import LabelBadge from "../label";
 
 const MyPhotos = () => {
   const db = getFirestore();
@@ -41,9 +42,7 @@ const MyPhotos = () => {
             <ImageBox src={picture.imageURL} alt={picture.filename} />
             <div className="p-4">
               <div className="mb-3">
-                <span className="text-sm font-semibold inline-block py-1 px-3 uppercase rounded-full text-blue-500 bg-blue-200">
-                  {picture.label}
-                </span>
+                <LabelBadge label={picture.label} />
               </div>
               <h4 className="text-xl font-bold text-gray-600">
                 {picture.photographerName} - {picture.location}

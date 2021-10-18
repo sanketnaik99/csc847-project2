@@ -79,7 +79,7 @@ const EditMetadata: React.FC<Props> = ({ picture, onClose }) => {
               Edit Photo Details
             </h1>
             <p className="text-center text-lg font-medium mt-3">
-              Fill out the form below to edit the photo's details.
+              Fill out the form below to edit the photo&#39;s details.
             </p>
             {picture.imageURL ? (
               <img
@@ -104,7 +104,7 @@ const EditMetadata: React.FC<Props> = ({ picture, onClose }) => {
                     htmlFor="photographerName"
                     className="leading-7 text-sm text-gray-600"
                   >
-                    Photographer's Name
+                    Photographer&#39;s Name
                   </label>
                   <Field
                     type="text"

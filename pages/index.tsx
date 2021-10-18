@@ -45,6 +45,7 @@ const Home: NextPage = () => {
             height={50}
             width={50}
             className="p-1"
+            alt="PhotoBook Logo"
           />
           <h1 className="ml-3 text-2xl md:text-4xl font-bold md:font-black text-gray-700">
             PhotoBook

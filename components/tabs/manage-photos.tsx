@@ -13,6 +13,7 @@ import RemoveImage from "../popups/remove-image";
 import { deleteObject, getStorage, ref } from "@firebase/storage";
 import { FirebaseApp } from "@firebase/app";
 import ReplaceImage from "../popups/replace-image";
+import LabelBadge from "../label";
 
 interface Props {
   firebaseApp: FirebaseApp;
@@ -74,9 +75,7 @@ const ManagePhotos: React.FC<Props> = ({ firebaseApp }) => {
             />
             <div className="p-4">
               <div className="mb-3">
-                <span className="text-sm font-semibold inline-block py-1 px-3 uppercase rounded-full text-blue-500 bg-blue-200">
-                  {picture.label}
-                </span>
+                <LabelBadge label={picture.label} />
               </div>
               <h4 className="text-xl font-bold text-gray-600">
                 {picture.photographerName} - {picture.location}
